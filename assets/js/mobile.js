@@ -1,15 +1,12 @@
 (function($){
 
+    var $server = 'server_hostname';
+
     function sha1 (str) {
-        //  discuss at: http://locutus.io/php/sha1/
+
         // original by: Webtoolkit.info (http://www.webtoolkit.info/)
         // improved by: Michael White (http://getsprink.com)
         // improved by: Kevin van Zonneveld (http://kvz.io)
-        //    input by: Brett Zamir (http://brett-zamir.me)
-        //      note 1: Keep in mind that in accordance with PHP, the whole string is buffered and then
-        //      note 1: hashed. If available, we'd recommend using Node's native crypto modules directly
-        //      note 1: in a steaming fashion for faster and more efficient hashing
-        //   example 1: sha1('Kevin van Zonneveld')
         //   returns 1: '54916d2e62f65b3afa6e192e6a601cdbe5cb5897'
 
         var hash
@@ -160,7 +157,7 @@
     if (getCookie("username") != '') {
         var logged = true;
         var u = getCookie("username");
-        $.get('http://192.168.33.41:3000/get/auth/' + u, function(result){
+        $.get('http://' + $server + '/get/auth/' + u, function(result){
             var u = JSON.parse(result);
             if (u['id'] == undefined) {
                 var template = $('#loading').html();
@@ -212,7 +209,7 @@
     }
 
     function getSerial() {
-        $.get('http://192.168.33.41:3000/get/json/all', function(data){
+        $.get('http://' + $server + '/get/json/all', function(data){
             var json_decoded = new Object();
 
             JSON.parse(data, function(k, v) {
@@ -242,63 +239,63 @@
             $("#target2").html(rendered);
 
             if (json_decoded['b_status'] == 1) {
-                $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/adec::true$');
+                $.get('http://' + $server + '/post/data/' + user['password'] + '/adec::true$');
                 $('#soff').hide();
                 $('#son').hide();
             } else {
-                $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/adec::false$');
+                $.get('http://' + $server + '/post/data/' + user['password'] + '/adec::false$');
                 $('#soff').hide();
                 $('#son').show();
             }
 
             $("#soff").click(function(e){
                 e.preventDefault();
-                $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/alarm::off$');
+                $.get('http://' + $server + '/post/data/' + user['password'] + '/alarm::off$');
             });
 
             $("#son").click(function(e){
                 e.preventDefault();
-                $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/alarm::on$');
+                $.get('http://' + $server + '/post/data/' + user['password'] + '/alarm::on$');
             });
 
             $("#reset").click(function(e){
                 e.preventDefault();
-                $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/reset$');
+                $.get('http://' + $server + '/post/data/' + user['password'] + '/reset$');
             });
 
             $("#blue").click(function(e){
                 e.preventDefault();
                 if (json_decoded['blue'] == 1) {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/bleu::off$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/bleu::off$');
                 } else {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/bleu::on$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/bleu::on$');
                 }
             });
 
             $("#green").click(function(e){
                 e.preventDefault();
                 if (json_decoded['green'] == 1) {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/vert::off$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/vert::off$');
                 } else {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/vert::on$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/vert::on$');
                 }
             });
 
             $("#red").click(function(e){
                 e.preventDefault();
                 if (json_decoded['red'] == 1) {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/rouge::off$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/rouge::off$');
                 } else {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/rouge::on$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/rouge::on$');
                 }
             });
 
             $("#white").click(function(e){
                 e.preventDefault();
                 if (json_decoded['white'] == 1) {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/blanc::off$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/blanc::off$');
                 } else {
-                    $.get('http://192.168.33.41:3000/post/data/' + user['password'] + '/blanc::on$');
+                    $.get('http://' + $server + '/post/data/' + user['password'] + '/blanc::on$');
                 }
             });
 
@@ -322,7 +319,7 @@
         $("#login").click(function(e){
         e.preventDefault();
         var password = $("#password").val();
-        $.get('http://192.168.33.41:3000/get/auth/' + sha1(password), function(result){
+        $.get('http://' + $server + '/get/auth/' + sha1(password), function(result){
             var u = JSON.parse(result);
             if (u['login'] == undefined) {
                 var template = $('#loading').html();
